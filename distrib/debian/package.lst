@@ -1,0 +1,55 @@
+#compile
+libtool-bin
+gcc
+make
+libcurl4-gnutls-dev
+c-icap
+libicapapi-dev
+##JDK
+openjdk-11-jre-headless
+#Security related
+clamav
+clamav-daemon
+#clamtk
+#ufw
+acl
+#Disabled squid-deb-proxy
+squid
+sudo
+##Common
+dirmngr
+vim
+unzip
+nano
+#squid
+nmap
+locales
+bzip2
+locate
+libnss-wrapper 
+gettext
+libaio1 
+libaio-dev
+numactl
+##For ClamAV scan script: kdialog inotify-tools 
+#inotify-tools
+##Dev tools
+#gradle
+#maven
+telnet
+#used for websockify/novnc
+python-numpy
+##Source control
+git
+##NPM
+#npm
+#Hardening
+#debsums
+lynis
+#aide
+unattended-upgrades
+#Utilities
+iputils-ping
+rsync
+mime-support
+net-tools
