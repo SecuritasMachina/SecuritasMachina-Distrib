@@ -1,7 +1,0 @@
-Origin: SecureWall Secure Router
-Label: SecureWall Secure Router
-Codename: buster
-Architectures: amd64
-Components: main
-Description: Apt repository for project SecureWall Secure Router
-SignWith: 3DEDA1A0B3C84415B03C0C77283B823C8FC32582
