@@ -1,0 +1,5 @@
+Component: main
+Origin: SecureWall Secure Router
+Label: SecureWall Secure Router
+Architecture: amd64
+Description: Apt repository for project SecureWall Secure Router

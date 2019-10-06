@@ -1,0 +1,19 @@
+Origin: SecureWall Secure Router
+Label: SecureWall Secure Router
+Codename: buster
+Date: Sun, 06 Oct 2019 21:32:38 UTC
+Architectures: amd64
+Components: main
+Description: Apt repository for project SecureWall Secure Router
+MD5Sum:
+ 072a4ef310576aa5771a719ed6d5bf07 1565 main/binary-amd64/Packages
+ a3217865c48fc16170f3f941b3cae2c3 769 main/binary-amd64/Packages.gz
+ a555c9eca1b5d0f72b7aec2899f894a8 166 main/binary-amd64/Release
+SHA1:
+ e1d90b0b55de821ad45aaa5fd75b0d5c77006dd2 1565 main/binary-amd64/Packages
+ 3d9044b661bbb3d42561532d2e34e0a46683c516 769 main/binary-amd64/Packages.gz
+ 1f8cd6679caa4b85c9cd21ce5b5037c8049dfd46 166 main/binary-amd64/Release
+SHA256:
+ 63c8b944e3741932b692bb48e7807da5073d8888be5e420262083e9aaabaead3 1565 main/binary-amd64/Packages
+ 3ff80cc12d05e6ad751979f8cfaaf703967c85830fd037f9cd3e392ce6979e27 769 main/binary-amd64/Packages.gz
+ 732a7c53a9b0b3cbf7c56801b7d04178840050433078b7b5550ca8f9e6dddde5 166 main/binary-amd64/Release
