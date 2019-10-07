@@ -50,10 +50,10 @@ fi
 curl -fsSL https://www.securitasmachina.com/SecuritasMachina.gpg.key | apt-key add -
 
 if cat /etc/apt/sources.list | grep "securitasmachina" ; then
-     echo "SecuritasMachina Repo already exists"
+     echo "SecuritasMachina Repository already exists"
 else
-	echo "Adding SecuritasMachina Repo"
-	echo "deb https://updates.securitasmachina.com/repos/apt/raspbian/ buster stable" >> /etc/apt/sources.list
+	echo "Adding SecuritasMachina Repository"
+	echo "deb [arch=$(uname --m)] https://updates.securitasmachina.com/repos/apt/$(lsb_release -i | cut -f 2-) $(lsb_release -cs) stable" >> /etc/apt/sources.list
 fi
 
 #read -p "Enable the deb-src line, then press enter"
@@ -66,7 +66,7 @@ update-ca-certificates
 
 echo "Install common tools for further installation"
 cd /tmp
-wget -q https://raw.githubusercontent.com/ackdev/SecuritasMachina-Distrib/master/distrib/raspbian/package.lst
+wget -q https://raw.githubusercontent.com/SecuritasMachina/SecuritasMachina-Distrib/master/distrib/raspbian/package.lst
 
 apt-get install -y $(awk -F: '/^[^#]/ { print $1 }' package.lst) 
 echo 'Installing Squid w/ SSL'
