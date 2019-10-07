@@ -71,16 +71,16 @@ wget -q https://raw.githubusercontent.com/SecuritasMachina/SecuritasMachina-Dist
 apt-get install -y $(awk -F: '/^[^#]/ { print $1 }' package.lst) 
 echo 'Installing Squid w/ SSL'
 
-wget -q https://github.com/ackdev/SecuritasMachina-Distrib/raw/master/distrib/raspbian/squid3_4.6-1+deb10u1_all.deb
-wget -q https://github.com/ackdev/SecuritasMachina-Distrib/raw/master/distrib/raspbian/squid_4.6-1+deb10u1_armhf.deb
-wget -q https://github.com/ackdev/SecuritasMachina-Distrib/raw/master/distrib/raspbian/squid-cgi_4.6-1+deb10u1_armhf.deb
-wget -q https://github.com/ackdev/SecuritasMachina-Distrib/raw/master/distrib/raspbian/squid-cgi-dbgsym_4.6-1+deb10u1_armhf.deb
-wget -q https://github.com/ackdev/SecuritasMachina-Distrib/raw/master/distrib/raspbian/squidclient_4.6-1+deb10u1_armhf.deb
-wget -q https://github.com/ackdev/SecuritasMachina-Distrib/raw/master/distrib/raspbian/squidclient-dbgsym_4.6-1+deb10u1_armhf.deb
-wget -q https://github.com/ackdev/SecuritasMachina-Distrib/raw/master/distrib/raspbian/squid-common_4.6-1+deb10u1_all.deb
-wget -q https://github.com/ackdev/SecuritasMachina-Distrib/raw/master/distrib/raspbian/squid-dbgsym_4.6-1+deb10u1_armhf.deb
-wget -q https://github.com/ackdev/SecuritasMachina-Distrib/raw/master/distrib/raspbian/squid-purge_4.6-1+deb10u1_armhf.deb
-wget -q https://github.com/ackdev/SecuritasMachina-Distrib/raw/master/distrib/raspbian/squid-purge-dbgsym_4.6-1+deb10u1_armhf.deb
+wget -q https://github.com/SecuritasMachina/SecuritasMachina-Distrib/raw/master/distrib/raspbian/squid3_4.6-1+deb10u1_all.deb
+wget -q https://github.com/SecuritasMachina/SecuritasMachina-Distrib/raw/master/distrib/raspbian/squid_4.6-1+deb10u1_armhf.deb
+wget -q https://github.com/SecuritasMachina/SecuritasMachina-Distrib/raw/master/distrib/raspbian/squid-cgi_4.6-1+deb10u1_armhf.deb
+wget -q https://github.com/SecuritasMachina/SecuritasMachina-Distrib/raw/master/distrib/raspbian/squid-cgi-dbgsym_4.6-1+deb10u1_armhf.deb
+wget -q https://github.com/SecuritasMachina/SecuritasMachina-Distrib/raw/master/distrib/raspbian/squidclient_4.6-1+deb10u1_armhf.deb
+wget -q https://github.com/SecuritasMachina/SecuritasMachina-Distrib/raw/master/distrib/raspbian/squidclient-dbgsym_4.6-1+deb10u1_armhf.deb
+wget -q https://github.com/SecuritasMachina/SecuritasMachina-Distrib/raw/master/distrib/raspbian/squid-common_4.6-1+deb10u1_all.deb
+wget -q https://github.com/SecuritasMachina/SecuritasMachina-Distrib/raw/master/distrib/raspbian/squid-dbgsym_4.6-1+deb10u1_armhf.deb
+wget -q https://github.com/SecuritasMachina/SecuritasMachina-Distrib/raw/master/distrib/raspbian/squid-purge_4.6-1+deb10u1_armhf.deb
+wget -q https://github.com/SecuritasMachina/SecuritasMachina-Distrib/raw/master/distrib/raspbian/squid-purge-dbgsym_4.6-1+deb10u1_armhf.deb
 
 apt -o Dpkg::Options::="--force-confnew" install ./*.deb -y --allow-downgrades
 echo 'disable further updates'
