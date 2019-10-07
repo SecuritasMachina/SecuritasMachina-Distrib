@@ -66,7 +66,7 @@ update-ca-certificates
 
 echo "Install common tools for further installation"
 cd /tmp
-wget -q https://raw.githubusercontent.com/ackdev/SecuritasMachina-Distrib/master/distrib/raspbian/package.lst
+wget -q https://raw.githubusercontent.com/SecuritasMachina/SecuritasMachina-Distrib/master/distrib/raspbian/package.lst
 
 apt-get install -y $(awk -F: '/^[^#]/ { print $1 }' package.lst) 
 echo 'Installing Squid w/ SSL'
