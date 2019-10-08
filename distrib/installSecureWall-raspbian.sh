@@ -77,7 +77,14 @@ echo "Install common tools for further installation"
 cd /tmp
 wget -q https://raw.githubusercontent.com/SecuritasMachina/SecuritasMachina-Distrib/master/distrib/raspbian/package.lst
 
-apt-get install -y $(awk -F: '/^[^#]/ { print $1 }' package.lst) 
+apt-get -q install -y $(awk -F: '/^[^#]/ { print $1 }' package.lst) 
+if [ $? -eq 0 ]; then
+    echo "Install of package.lst succeeded"
+else
+    echo "!! Install of package.lst failed !!"
+    echo "Aborting install"
+    exit
+fi
 echo 'Installing Squid w/ SSL'
 
 wget -q https://github.com/SecuritasMachina/SecuritasMachina-Distrib/raw/master/distrib/raspbian/squid3_4.6-1+deb10u1_all.deb
@@ -91,17 +98,85 @@ wget -q https://github.com/SecuritasMachina/SecuritasMachina-Distrib/raw/master/
 wget -q https://github.com/SecuritasMachina/SecuritasMachina-Distrib/raw/master/distrib/raspbian/squid-purge_4.6-1+deb10u1_armhf.deb
 wget -q https://github.com/SecuritasMachina/SecuritasMachina-Distrib/raw/master/distrib/raspbian/squid-purge-dbgsym_4.6-1+deb10u1_armhf.deb
 
-apt -o Dpkg::Options::="--force-confnew" install ./*.deb -y --allow-downgrades
+apt -o Dpkg::Options::="--force-confnew" -q install ./*.deb -y --allow-downgrades
+if [ $? -eq 0 ]; then
+    echo "Install of squid with SSL succeeded"
+else
+    echo "!! Install of Squid failed !!"
+    echo "Aborting install"
+    exit
+fi
+
 echo 'disable further updates'
 apt-mark hold squid squid-common
 echo 'Shutdown & Disable Apache2'
 update-rc.d apache2 disable
 service stop apache2
 
-apt -o Dpkg::Options::="--force-confnew" install -y securitas-wall
-apt -o Dpkg::Options::="--force-confnew" install -y securitas-wall-tomcat
-apt -o Dpkg::Options::="--force-confnew" install -y securitas-wall-host
+apt -o Dpkg::Options::="--force-confnew" -q install -y securitas-wall
+if [ $? -eq 0 ]; then
+    echo "Install of securitas-wall succeeded"
+else
+    echo "!! Install of securitas-wall failed !!"
+    echo "Aborting install"
+    exit
+fi
+
+apt -o Dpkg::Options::="--force-confnew" -q install -y securitas-wall-tomcat
+if [ $? -eq 0 ]; then
+    echo "Install of securitas-wall-tomcat succeeded"
+else
+    echo "!! Install of securitas-wall-tomcat failed !!"
+    echo "Aborting install"
+    exit
+fi
+apt -o Dpkg::Options::="--force-confnew" -q install -y securitas-wall-host
+if [ $? -eq 0 ]; then
+    echo "Install of securitas-wall-host succeeded"
+else
+    echo "!! Install of securitas-wall-host failed !!"
+    echo "Aborting install"
+    exit
+fi
 
 read -rsp $'Press any key to restart or CTRL-c to abort...note may take 10 minutes to load virus and malware definitions' -n1 key
 shutdown -r now
+exit
+if cat /etc/fstab | grep "ramdisk" ; then
+     echo "RAM disk already exists"
+else
+	echo "Adding RAM disk"
+	cp -r /etc/fstab /etc/fstab --backup=numbered
+	#create fstab entries
+	echo "tmpfs  /mnt/ramdisk  tmpfs  rw,size=512M  0   0" >>/etc/fstab
+	mount -t tmpfs -o size=512m myramdisk /mnt/ramdisk
+#setup sync service
+cat > /lib/systemd/system/ramdisk-sync.service <<'endmsg1'
+[Unit]
+Before=umount.target
+
+[Service]
+Type=oneshot
+User=root
+ExecStartPre=/bin/chown -Rf root:syslog /mnt/ramdisk
+ExecStart=/usr/bin/rsync -ar /mnt/persist_ramdisk/ /mnt/log_ramdisk
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
+
+endmsg1
+
+	systemctl enable ramdisk-sync.service
+	
+	oldDir=/var/log
+	pRamDir=/mnt/log_persist_ramdisk
+	ramDir=/mnt/log_ramdisk
+	destDir=echo "${oldDir%/*}"
+	
+	mkdir -p $pRamDir$destDir;mv $oldDir $pRamDir/$oldDir;mkdir $oldDir;mount --bind $oldDir $pRamDir/$oldDir
+fi
+
+
+
  
