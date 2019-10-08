@@ -155,7 +155,7 @@ Before=umount.target
 [Service]
 Type=oneshot
 User=root
-ExecStartPre=/bin/chown -Rf root:syslog /mnt/ramdisk
+ExecStartPre=/bin/chown -Rf root:root /mnt/ramdisk
 ExecStart=/usr/bin/rsync -ar /mnt/persist_ramdisk/ /mnt/ramdisk
 RemainAfterExit=yes
 
