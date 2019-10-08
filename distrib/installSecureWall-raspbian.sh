@@ -139,9 +139,6 @@ else
     exit
 fi
 
-read -rsp $'Press any key to restart or CTRL-c to abort...note may take 10 minutes to load virus and malware definitions' -n1 key
-shutdown -r now
-exit
 if cat /etc/fstab | grep "ramdisk" ; then
      echo "RAM disk already exists"
 else
@@ -159,7 +156,7 @@ Before=umount.target
 Type=oneshot
 User=root
 ExecStartPre=/bin/chown -Rf root:syslog /mnt/ramdisk
-ExecStart=/usr/bin/rsync -ar /mnt/persist_ramdisk/ /mnt/log_ramdisk
+ExecStart=/usr/bin/rsync -ar /mnt/persist_ramdisk/ /mnt/ramdisk
 RemainAfterExit=yes
 
 [Install]
@@ -168,15 +165,18 @@ WantedBy=multi-user.target
 endmsg1
 
 	systemctl enable ramdisk-sync.service
-	
-	oldDir=/var/log
-	pRamDir=/mnt/log_persist_ramdisk
-	ramDir=/mnt/log_ramdisk
-	destDir=echo "${oldDir%/*}"
-	
-	mkdir -p $pRamDir$destDir;mv $oldDir $pRamDir/$oldDir;mkdir $oldDir;mount --bind $oldDir $pRamDir/$oldDir
+	oldDir=/var/lib/squidguard/db
+	pRamDir=/mnt/persist_ramdisk
+	ramDir=/mnt/ramdisk
+	echo "Setup ramdisk for $oldDir"
+	mkdir -p $pRamDir$oldDir;mv $oldDir/* $pRamDir/$oldDir;rsync -ar /mnt/persist_ramdisk/ /mnt/ramdisk;mount --bind $ramDir/$oldDir $oldDir
+	oldDir=/var/log 
+	echo "Setup ramdisk for $oldDir"
+
+        mkdir -p $pRamDir$oldDir;mv $oldDir/* $pRamDir/$oldDir;rsync -ar /mnt/persist_ramdisk/ /mnt/ramdisk;mount --bind $ramDir/$oldDir $oldDir
+
 fi
 
 
-
- 
+read -rsp $'Press any key to restart or CTRL-c to abort...note may take 10 minutes to load virus and malware definitions' -n1 key
+shutdown -r now
