@@ -27,8 +27,12 @@ endmsg1
 	oldDir=/var/lib/squidguard/db
 	pRamDir=/mnt/persist_ramdisk
 	ramDir=/mnt/ramdisk
-#	destDir=echo "${oldDir%/*}"
-
+	echo "Setup ramdisk for $oldDir"
 	mkdir -p $pRamDir$oldDir;mv $oldDir/* $pRamDir/$oldDir;rsync -ar /mnt/persist_ramdisk/ /mnt/ramdisk;mount --bind $ramDir/$oldDir $oldDir
+	oldDir=/var/log 
+	echo "Setup ramdisk for $oldDir"
+
+        mkdir -p $pRamDir$oldDir;mv $oldDir/* $pRamDir/$oldDir;rsync -ar /mnt/persist_ramdisk/ /mnt/ramdisk;mount --bind $ramDir/$oldDir $oldDir
+
 fi
 
