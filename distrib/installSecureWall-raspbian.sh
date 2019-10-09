@@ -143,6 +143,7 @@ if cat /etc/fstab | grep "ramdisk" ; then
      echo "RAM disk already exists"
 else
 	echo "Adding RAM disk"
+	mkdir -p /mnt/ramdisk
 	cp -r /etc/fstab /etc/fstab --backup=numbered
 	#create fstab entries
 	echo "tmpfs  /mnt/ramdisk  tmpfs  rw,size=512M  0   0" >>/etc/fstab
