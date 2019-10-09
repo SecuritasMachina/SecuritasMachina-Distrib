@@ -26,6 +26,10 @@ cat << "EOF"
    
 EOF
 
+#Variables
+pRamDir=/mnt/persist_ramdisk
+ramDir=/mnt/ramdisk
+
 randomString=$(head /dev/urandom | tr -dc a-z0-9 | head -c 2 ; echo '')
 
 NEW_HOSTNAME="securewall-$randomString"
@@ -66,8 +70,6 @@ else
 fi
 
 
-pRamDir=/mnt/persist_ramdisk
-ramDir=/mnt/ramdisk
 if cat /etc/fstab | grep "ramdisk" ; then
      echo "RAM disk already exists"
 else
@@ -97,6 +99,7 @@ endmsg1
 	systemctl enable ramdisk-sync.service
 	oldDir=/var/log 
 	echo "Setup ramdisk for $oldDir"
+	echo "$ramDir/$oldDir   $oldDir   none   bind   0 0" >>/etc/fstab
 	mkdir -p $pRamDir$oldDir;mv $oldDir/* $pRamDir/$oldDir;rsync -ar $pRamDir/ $ramDir;mount --bind $ramDir/$oldDir $oldDir
 
 fi
@@ -174,7 +177,7 @@ fi
 
 oldDir=/var/lib/squidguard/db
 echo "Setup ramdisk for $oldDir"
-
+echo "$ramDir/$oldDir   $oldDir   none   bind   0 0" >>/etc/fstab
 mkdir -p $pRamDir$oldDir;mv $oldDir/* $pRamDir/$oldDir;rsync -ar $pRamDir/ $ramDir;mount --bind $ramDir/$oldDir $oldDir
 
 echo "Sync RamDisk"
