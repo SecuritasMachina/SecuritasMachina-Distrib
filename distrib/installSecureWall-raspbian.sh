@@ -185,5 +185,6 @@ mkdir -p $pRamDir$oldDir;mv $oldDir/* $pRamDir/$oldDir;rsync -ar $pRamDir/ $ramD
 
 echo "Sync RamDisk"
 rsync -ar $ramDir/ $pRamDir
+echo "Increase performance furtheer by mounting all partitions on the SD card with the noatime,commit=1800 options"
 read -rsp $'Press any key to restart or CTRL-c to abort...note may take 10 minutes to load virus and malware definitions' -n1 key
 shutdown -r now
