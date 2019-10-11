@@ -78,6 +78,9 @@ else
 	cp -r /etc/fstab /etc/fstab.bak --backup=numbered
 	#create fstab entries
 	echo "tmpfs  /mnt/ramdisk  tmpfs  rw,size=512M  0   0" >>/etc/fstab
+	echo "tmpfs /tmp            tmpfs   size=50M,nodev,nosuid     0       0" >>/etc/fstab
+	echo "tmpfs /var/tmp        tmpfs   size=10M,nodev,nosuid     0       0" >>/etc/fstab
+
 	mount -t tmpfs -o size=512m myramdisk /mnt/ramdisk
 #setup sync service
 cat > /lib/systemd/system/ramdisk-sync.service <<'endmsg1'
