@@ -78,6 +78,9 @@ else
 	cp -r /etc/fstab /etc/fstab.bak --backup=numbered
 	#create fstab entries
 	echo "tmpfs  /mnt/ramdisk  tmpfs  rw,size=512M  0   0" >>/etc/fstab
+	echo "tmpfs /tmp            tmpfs   size=50M,nodev,nosuid     0       0" >>/etc/fstab
+	echo "tmpfs /var/tmp        tmpfs   size=10M,nodev,nosuid     0       0" >>/etc/fstab
+
 	mount -t tmpfs -o size=512m myramdisk /mnt/ramdisk
 #setup sync service
 cat > /lib/systemd/system/ramdisk-sync.service <<'endmsg1'
@@ -182,5 +185,6 @@ mkdir -p $pRamDir$oldDir;mv $oldDir/* $pRamDir/$oldDir;rsync -ar $pRamDir/ $ramD
 
 echo "Sync RamDisk"
 rsync -ar $ramDir/ $pRamDir
+echo "Increase performance furtheer by mounting all partitions on the SD card with the noatime,commit=1800 options"
 read -rsp $'Press any key to restart or CTRL-c to abort...note may take 10 minutes to load virus and malware definitions' -n1 key
 shutdown -r now
