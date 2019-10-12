@@ -66,7 +66,7 @@ else
 	arch=$(uname --m)
 	arch=${arch,,}
 	
-	echo "deb [arch=$arch] https://updates.securitasmachina.com/repos/apt/$distro $release stable" >> /etc/apt/sources.list
+	echo "deb https://updates.securitasmachina.com/repos/apt/$distro $release stable" >> /etc/apt/sources.list
 fi
 
 
