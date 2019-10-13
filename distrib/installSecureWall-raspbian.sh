@@ -152,6 +152,9 @@ echo 'Shutdown & Disable Apache2'
 update-rc.d apache2 disable
 service stop apache2
 
+echo "Sync RamDisk"
+rsync -ar $ramDir/ $pRamDir
+
 apt -o Dpkg::Options::="--force-confnew" -q install -y securitas-wall
 if [ $? -eq 0 ]; then
     echo "Install of securitas-wall succeeded"
