@@ -89,5 +89,7 @@ connect.facebook.net
 www.google.com/ads
 google.com/adsense
 rlcdn.com/api/identity
-/admax/
+yahoo.com/admax
+yahoo.com/_td_api/beacon
 /tracker.js
+/td-ads
