@@ -1,6 +1,3 @@
-.mozilla.org
-.mozilla.com
-.mozilla.net
 telemetry.mozilla.org                                  
 services.mozilla.com
 id.google.com                                             
@@ -11,7 +8,6 @@ digicert.com
 detectportal.firefox.com
 safebrowsing.googleapis.com
 ocsp.pki.goog
-google-analytics.com
 analytics.twitter.com
 analytics.yahoo.com
 ads.linkedin.com
