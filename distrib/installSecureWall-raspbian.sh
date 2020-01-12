@@ -103,6 +103,11 @@ endmsg1
 	echo "$ramDir/$oldDir   $oldDir   none   bind   0 0" >>/etc/fstab
 	mkdir -p $pRamDir$oldDir;mv $oldDir/* $pRamDir/$oldDir;rsync -ar $pRamDir/ $ramDir;mount --bind $ramDir/$oldDir $oldDir
 
+	oldDir=/var/lib/clamav
+	echo "Setup ramdisk for $oldDir"
+	echo "$ramDir/$oldDir   $oldDir   none   bind   0 0" >>/etc/fstab
+	mkdir -p $pRamDir$oldDir;mv $oldDir/* $pRamDir/$oldDir;rsync -ar $pRamDir/ $ramDir;mount --bind $ramDir/$oldDir $oldDir
+
 fi
 apt-get update -y
 #apt source openssl
