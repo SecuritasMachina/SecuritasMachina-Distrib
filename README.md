@@ -1,2 +1,3 @@
 # Securitas Machina Distributions
-# SecuritasMachina-Distrib
+
+Contains tracker blacklist, installation scripts, SSL bump list
