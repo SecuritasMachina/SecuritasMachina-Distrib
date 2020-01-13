@@ -77,7 +77,7 @@ else
 	mkdir -p /mnt/ramdisk
 	cp -r /etc/fstab /etc/fstab.bak --backup=numbered
 	#create fstab entries
-	echo "tmpfs  /mnt/ramdisk  tmpfs  rw,size=512M  0   0" >>/etc/fstab
+	echo "tmpfs  /mnt/ramdisk  tmpfs  rw,size=1024M  0   0" >>/etc/fstab
 
 	mount -t tmpfs -o size=512m myramdisk /mnt/ramdisk
 #setup sync service
@@ -102,6 +102,13 @@ endmsg1
 	echo "Setup ramdisk for $oldDir"
 	echo "$ramDir/$oldDir   $oldDir   none   bind   0 0" >>/etc/fstab
 	mkdir -p $pRamDir$oldDir;mv $oldDir/* $pRamDir/$oldDir;rsync -ar $pRamDir/ $ramDir;mount --bind $ramDir/$oldDir $oldDir
+
+	oldDir=/var/lib/clamav
+	echo "Setup ramdisk for $oldDir"
+	echo "$ramDir/$oldDir   $oldDir   none   bind   0 0" >>/etc/fstab
+	mkdir -p $pRamDir$oldDir;mv $oldDir/* $pRamDir/$oldDir;rsync -ar $pRamDir/ $ramDir;mount --bind $ramDir/$oldDir $oldDir
+	chown clamav:clamav $oldDir
+	chown -R clamav:clamav $oldDir
 
 fi
 apt-get update -y
