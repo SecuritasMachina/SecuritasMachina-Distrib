@@ -66,7 +66,7 @@ else
 	arch=$(uname --m)
 	arch=${arch,,}
 	
-	echo "deb [arch=$arch] https://updates.securitasmachina.com/repos/apt/$distro $release stable" >> /etc/apt/sources.list
+	echo "deb https://updates.securitasmachina.com/repos/apt/$distro $release stable" >> /etc/apt/sources.list
 fi
 
 
@@ -77,7 +77,8 @@ else
 	mkdir -p /mnt/ramdisk
 	cp -r /etc/fstab /etc/fstab.bak --backup=numbered
 	#create fstab entries
-	echo "tmpfs  /mnt/ramdisk  tmpfs  rw,size=512M  0   0" >>/etc/fstab
+	echo "tmpfs  /mnt/ramdisk  tmpfs  rw,size=1024M  0   0" >>/etc/fstab
+
 	mount -t tmpfs -o size=512m myramdisk /mnt/ramdisk
 #setup sync service
 cat > /lib/systemd/system/ramdisk-sync.service <<'endmsg1'
@@ -101,6 +102,13 @@ endmsg1
 	echo "Setup ramdisk for $oldDir"
 	echo "$ramDir/$oldDir   $oldDir   none   bind   0 0" >>/etc/fstab
 	mkdir -p $pRamDir$oldDir;mv $oldDir/* $pRamDir/$oldDir;rsync -ar $pRamDir/ $ramDir;mount --bind $ramDir/$oldDir $oldDir
+
+	oldDir=/var/lib/clamav
+	echo "Setup ramdisk for $oldDir"
+	echo "$ramDir/$oldDir   $oldDir   none   bind   0 0" >>/etc/fstab
+	mkdir -p $pRamDir$oldDir;mv $oldDir/* $pRamDir/$oldDir;rsync -ar $pRamDir/ $ramDir;mount --bind $ramDir/$oldDir $oldDir
+	chown clamav:clamav $oldDir
+	chown -R clamav:clamav $oldDir
 
 fi
 apt-get update -y
@@ -149,6 +157,9 @@ echo 'Shutdown & Disable Apache2'
 update-rc.d apache2 disable
 service stop apache2
 
+echo "Sync RamDisk"
+rsync -ar $ramDir/ $pRamDir
+
 apt -o Dpkg::Options::="--force-confnew" -q install -y securitas-wall
 if [ $? -eq 0 ]; then
     echo "Install of securitas-wall succeeded"
@@ -182,5 +193,6 @@ mkdir -p $pRamDir$oldDir;mv $oldDir/* $pRamDir/$oldDir;rsync -ar $pRamDir/ $ramD
 
 echo "Sync RamDisk"
 rsync -ar $ramDir/ $pRamDir
+echo "Increase performance furtheer by mounting all partitions on the SD card with the noatime,commit=1800 options"
 read -rsp $'Press any key to restart or CTRL-c to abort...note may take 10 minutes to load virus and malware definitions' -n1 key
 shutdown -r now
