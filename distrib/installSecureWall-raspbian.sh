@@ -179,16 +179,18 @@ else
     echo "Aborting install"
     exit
 fi
-cp -r /etc/fstab /etc/fstab.bak --backup=numbered
 oldDir=/var/lib/squidguard/db
 echo "Setup ramdisk for $oldDir"
+cp -r /etc/fstab /etc/fstab.bak --backup=numbered
 echo "$ramDir/$oldDir   $oldDir   none   bind   0 0" >>/etc/fstab
 mkdir -p $pRamDir$oldDir;mv $oldDir/* $pRamDir/$oldDir;rsync -ar $pRamDir/ $ramDir;mount --bind $ramDir/$oldDir $oldDir
-cp -r /etc/fstab /etc/fstab.bak --backup=numbered
+
 oldDir=/var/lib/clamav
 echo "Setup ramdisk for $oldDir"
+cp -r /etc/fstab /etc/fstab.bak --backup=numbered
 echo "$ramDir/$oldDir   $oldDir   none   bind   0 0" >>/etc/fstab
 mkdir -p $pRamDir$oldDir;mv $oldDir/* $pRamDir/$oldDir;rsync -ar $pRamDir/ $ramDir;mount --bind $ramDir/$oldDir $oldDir
+chown -R clamav:clamav $oldDir
 
 echo "Sync RamDisk"
 rsync -ar $ramDir/ $pRamDir
@@ -216,6 +218,6 @@ fi
 systemctl enable ssh
 service ssh restart
 
-echo "Increase performance furtheer by mounting all partitions on the SD card with the noatime,commit=1800 options"
+#don't do echo "Increase performance further by mounting all partitions on the SD card with the noatime,commit=1800 options"
 read -rsp $'Press any key to restart or CTRL-c to abort...note may take 10 minutes to load virus and malware definitions' -n1 key
 shutdown -r now
