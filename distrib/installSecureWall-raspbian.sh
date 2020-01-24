@@ -193,6 +193,30 @@ mkdir -p $pRamDir$oldDir;mv $oldDir/* $pRamDir/$oldDir;rsync -ar $pRamDir/ $ramD
 
 echo "Sync RamDisk"
 rsync -ar $ramDir/ $pRamDir
+tune2fs -o journal_data_writeback,nobarrier /dev/mmcblk0p2
+echo "Echo reduce swapping"
+sysctl vm.swappiness=20
+
+echo "Harden & Enable ssh"
+if cat /etc/ssh/sshd_config | grep "Port 20022" ; then
+     echo "Port 20022 already exists"
+else
+	echo "Adding Port 20022, MaxAuthTries 6, MaxSessions 2"
+	echo "Port 20022" >> /etc/ssh/sshd_config
+	echo "MaxAuthTries 3" >> /etc/ssh/sshd_config
+	echo "MaxSessions 5" >> /etc/ssh/sshd_config
+	#echo "TCPKeepAlive no" >> /etc/ssh/sshd_config
+	echo "AllowAgentForwarding no" >> /etc/ssh/sshd_config
+	echo "AllowTcpForwarding no" >> /etc/ssh/sshd_config
+	#echo "ClientAliveCountMax 2" >> /etc/ssh/sshd_config
+	echo "Compression no" >> /etc/ssh/sshd_config
+	echo "LogLevel verbose" >> /etc/ssh/sshd_config
+	
+	
+fi
+systemctl enable ssh
+service ssh restart
+
 echo "Increase performance furtheer by mounting all partitions on the SD card with the noatime,commit=1800 options"
 read -rsp $'Press any key to restart or CTRL-c to abort...note may take 10 minutes to load virus and malware definitions' -n1 key
 shutdown -r now
