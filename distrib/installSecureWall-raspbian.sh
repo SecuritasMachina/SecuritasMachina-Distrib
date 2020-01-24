@@ -79,7 +79,7 @@ else
 	#create fstab entries
 	echo "tmpfs  /mnt/ramdisk  tmpfs  rw,size=1024M  0   0" >>/etc/fstab
 
-	mount -t tmpfs -o size=512m myramdisk /mnt/ramdisk
+	mount -t tmpfs -o size=1024m myramdisk /mnt/ramdisk
 #setup sync service
 cat > /lib/systemd/system/ramdisk-sync.service <<'endmsg1'
 [Unit]
