@@ -191,12 +191,13 @@ cp -r /etc/fstab /etc/fstab.bak --backup=numbered
 echo "$ramDir/$oldDir   $oldDir   none   bind   0 0" >>/etc/fstab
 mkdir -p $pRamDir$oldDir;mv $oldDir/* $pRamDir/$oldDir;rsync -ar $pRamDir/ $ramDir;mount --bind $ramDir/$oldDir $oldDir
 chown -R clamav:clamav $oldDir
+chown -R proxy:proxy /var/lib/squidguard
 
 echo "Sync RamDisk"
 rsync -ar $ramDir/ $pRamDir
 tune2fs -o journal_data_writeback,nobarrier /dev/mmcblk0p2
 echo "Echo reduce swapping"
-sysctl vm.swappiness=20
+sysctl vm.swappiness=5
 
 echo "Harden & Enable ssh"
 if cat /etc/ssh/sshd_config | grep "Port 20022" ; then
