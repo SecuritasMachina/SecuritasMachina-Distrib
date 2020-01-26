@@ -163,14 +163,6 @@ else
     exit
 fi
 
-apt -o Dpkg::Options::="--force-confnew" -q install -y securitas-wall-tomcat
-if [ $? -eq 0 ]; then
-    echo "Install of securitas-wall-tomcat succeeded"
-else
-    echo "!! Install of securitas-wall-tomcat failed !!"
-    echo "Aborting install"
-    exit
-fi
 apt -o Dpkg::Options::="--force-confnew" -q install -y securitas-wall-host
 if [ $? -eq 0 ]; then
     echo "Install of securitas-wall-host succeeded"
