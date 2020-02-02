@@ -107,6 +107,12 @@ endmsg1
 fi
 apt-get update -y
 #apt source openssl
+echo "Adjust Swapfile size"
+dphys-swapfile swapoff
+#MODIFY THE SIZE OF THE SWAP
+echo "CONF_SWAPSIZE=2048" >/etc/dphys-swapfile
+dphys-swapfile setup
+dphys-swapfile swapon
 
 echo "Update root certificates"
 update-ca-certificates
