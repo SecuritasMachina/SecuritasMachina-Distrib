@@ -183,12 +183,12 @@ cp -r /etc/fstab /etc/fstab.bak --backup=numbered
 echo "$ramDir/$oldDir   $oldDir   none   bind   0 0" >>/etc/fstab
 mkdir -p $pRamDir$oldDir;mv $oldDir/* $pRamDir/$oldDir;rsync -ar $pRamDir/ $ramDir;mount --bind $ramDir/$oldDir $oldDir
 
-oldDir=/var/lib/clamav
-echo "Setup ramdisk for $oldDir"
-cp -r /etc/fstab /etc/fstab.bak --backup=numbered
-echo "$ramDir/$oldDir   $oldDir   none   bind   0 0" >>/etc/fstab
-mkdir -p $pRamDir$oldDir;mv $oldDir/* $pRamDir/$oldDir;rsync -ar $pRamDir/ $ramDir;mount --bind $ramDir/$oldDir $oldDir
-chown -R clamav:clamav $oldDir
+#oldDir=/var/lib/clamav
+#echo "Setup ramdisk for $oldDir"
+#cp -r /etc/fstab /etc/fstab.bak --backup=numbered
+#echo "$ramDir/$oldDir   $oldDir   none   bind   0 0" >>/etc/fstab
+#mkdir -p $pRamDir$oldDir;mv $oldDir/* $pRamDir/$oldDir;rsync -ar $pRamDir/ $ramDir;mount --bind $ramDir/$oldDir $oldDir
+#chown -R clamav:clamav $oldDir
 chown -R proxy:proxy /var/lib/squidguard
 
 echo "Sync RamDisk"
