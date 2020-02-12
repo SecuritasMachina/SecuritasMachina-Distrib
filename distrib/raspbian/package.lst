@@ -14,7 +14,7 @@ clamav-daemon
 #ufw
 acl
 #Disabled squid-deb-proxy
-squid
+#squid
 sudo
 ##Common
 dirmngr
