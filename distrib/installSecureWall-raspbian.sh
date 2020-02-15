@@ -195,7 +195,7 @@ echo "Install ntop"
 
 wget http://apt.ntop.org/18.04/all/apt-ntop.deb
 dpkg -i apt-ntop.deb
-apt install ntopng
+apt install ntopng -y
 sudo systemctl start ntopng
 sudo systemctl enable ntopng
 echo "ntop should now be available via http://$HOSTNAME.home:3000"
