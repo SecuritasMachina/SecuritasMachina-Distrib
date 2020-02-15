@@ -191,6 +191,13 @@ mkdir -p $pRamDir$oldDir;mv $oldDir/* $pRamDir/$oldDir;rsync -ar $pRamDir/ $ramD
 #chown -R clamav:clamav $oldDir
 chown -R proxy:proxy /var/lib/squidguard
 
+echo "Install ntop"
+
+wget http://apt.ntop.org/18.04/all/apt-ntop.deb
+dpkg -i apt-ntop.deb
+apt install ntopng
+echo "ntop should now be available via http://$HOSTNAME.home:3000"
+
 echo "Sync RamDisk"
 rsync -ar $ramDir/ $pRamDir
 tune2fs -o journal_data_writeback,nobarrier /dev/mmcblk0p2
