@@ -4,5 +4,8 @@ cpuTemp1=$(($cpuTemp0/1000))
 cpuTemp2=$(($cpuTemp0/100))
 cpuTempM=$(($cpuTemp2 % $cpuTemp1))
 tf=$(echo "scale=2;((9/5) * $cpuTemp1.$cpuTempM) + 32" |bc)
-echo CPU temp"="$cpuTemp1"."$cpuTempM"'C $tf F"
+tfgpu=$(echo "scale=2;((9/5) * $cpuTemp1) + 32" |bc)
+echo -ne CPU temp"="$cpuTemp1"."$cpuTempM"'C $tf F" \\r
 #echo GPU $(/opt/vc/bin/vcgencmd measure_temp)
+sleep 3
+temp
