@@ -153,9 +153,10 @@ fi
 
 echo 'disable further updates'
 apt-mark hold squid squid-common
-echo 'Shutdown & Disable Apache2'
-update-rc.d apache2 disable
+echo 'Shutdown & remove Apache2'
 service stop apache2
+apt remove apache2 -y
+
 
 echo "Sync RamDisk"
 rsync -ar $ramDir/ $pRamDir
