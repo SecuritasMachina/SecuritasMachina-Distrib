@@ -198,6 +198,14 @@ dpkg -i apt-ntop.deb
 apt install ntopng -y
 systemctl start ntopng
 systemctl enable ntopng
+service stop ntopng
+oldDir=/var/lib/ntopng
+echo "Setup ramdisk for $oldDir"
+cp -r /etc/fstab /etc/fstab.bak --backup=numbered
+echo "$ramDir/$oldDir   $oldDir   none   bind   0 0" >>/etc/fstab
+mkdir -p $pRamDir$oldDir;mv $oldDir/* $pRamDir/$oldDir;rsync -ar $pRamDir/ $ramDir;mount --bind $ramDir/$oldDir $oldDir
+service start ntopng
+
 echo "ntop should now be available via http://$HOSTNAME.home:3000"
 
 echo "Sync RamDisk"
