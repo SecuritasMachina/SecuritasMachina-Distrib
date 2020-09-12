@@ -208,7 +208,9 @@ mkdir -p $pRamDir$oldDir;mv $oldDir/* $pRamDir/$oldDir;rsync -ar $pRamDir/ $ramD
 chown -R ntopng:ntopng /var/lib/ntopng
 systemctl start ntopng
 
-echo "ntop should now be available via http://$HOSTNAME.home:3000"
+echo "ntop should now be available via http://$HOSTNAME.local:3000"
+apt -o Dpkg::Options::="--force-overwrite" install securitas-wall-webadmin
+echo "Administration interface should now be available via http://$HOSTNAME.local"
 
 echo "Sync RamDisk"
 rsync -ar $ramDir/ $pRamDir
