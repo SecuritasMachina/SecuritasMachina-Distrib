@@ -43,12 +43,12 @@ echo "Update root certificates"
 update-ca-certificates
 
 apt-key adv --keyserver keyserver.ubuntu.com --recv-keys C80E383C3DE9F082E01391A0366C67DE91CA5D5F
-echo 'Acquire::Languages "none";' | sudo tee /etc/apt/apt.conf.d/99disable-translations
+echo 'Acquire::Languages "none";' | tee /etc/apt/apt.conf.d/99disable-translations
 if cat /etc/apt/sources.list | grep "cisofy" ; then
      echo "cisofy Repo already exists"
 else
 	echo "Adding cisofy Repo"
-	echo "deb https://packages.cisofy.com/community/lynis/deb/ stable main" | sudo tee /etc/apt/sources.list.d/cisofy-lynis.list
+	echo "deb https://packages.cisofy.com/community/lynis/deb/ stable main" | tee /etc/apt/sources.list.d/cisofy-lynis.list
 fi
 
 curl -fsSL https://www.securitasmachina.com/SecuritasMachina.gpg.key | apt-key add -
@@ -191,6 +191,24 @@ mkdir -p $pRamDir$oldDir;mv $oldDir/* $pRamDir/$oldDir;rsync -ar $pRamDir/ $ramD
 #mkdir -p $pRamDir$oldDir;mv $oldDir/* $pRamDir/$oldDir;rsync -ar $pRamDir/ $ramDir;mount --bind $ramDir/$oldDir $oldDir
 #chown -R clamav:clamav $oldDir
 chown -R proxy:proxy /var/lib/squidguard
+
+echo "Install ntop"
+
+wget http://apt.ntop.org/18.04/all/apt-ntop.deb
+dpkg -i apt-ntop.deb
+apt install ntopng -y
+systemctl start ntopng
+systemctl enable ntopng
+systemctl stop ntopng
+oldDir=/var/lib/ntopng
+echo "Setup ramdisk for $oldDir"
+cp -r /etc/fstab /etc/fstab.bak --backup=numbered
+echo "$ramDir/$oldDir   $oldDir   none   bind   0 0" >>/etc/fstab
+mkdir -p $pRamDir$oldDir;mv $oldDir/* $pRamDir/$oldDir;rsync -ar $pRamDir/ $ramDir;mount --bind $ramDir/$oldDir $oldDir
+chown -R ntopng:ntopng /var/lib/ntopng
+systemctl start ntopng
+
+echo "ntop should now be available via http://$HOSTNAME.home:3000"
 
 echo "Sync RamDisk"
 rsync -ar $ramDir/ $pRamDir
