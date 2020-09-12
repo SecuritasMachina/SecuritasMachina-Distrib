@@ -210,6 +210,12 @@ systemctl start ntopng
 
 echo "ntop should now be available via http://$HOSTNAME.local:3000"
 apt -o Dpkg::Options::="--force-overwrite" install securitas-wall-webadmin
+cd /tmp
+wget https://github.com/SecuritasMachina/SecuritasMachina-Distrib/raw/master/distrib/tars/webadmin.tgz
+cd /
+tar -xzf /tmp/webadmin.tgz
+echo "Applying permissions"
+chown -R www-data:www-data /var/www/html/*
 echo "Administration interface should now be available via http://$HOSTNAME.local"
 
 echo "Sync RamDisk"
