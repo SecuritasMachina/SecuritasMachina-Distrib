@@ -30,9 +30,9 @@ EOF
 pRamDir=/mnt/persist_ramdisk
 ramDir=/mnt/ramdisk
 
-randomString=$(head /dev/urandom | tr -dc a-z0-9 | head -c 2 ; echo '')
+#randomString=$(head /dev/urandom | tr -dc a-z0-9 | head -c 2 ; echo '')
 
-NEW_HOSTNAME="securewall-$randomString"
+NEW_HOSTNAME="securewall"
 echo "Updating hostname to $NEW_HOSTNAME"
 sed -i "s/raspberrypi/$NEW_HOSTNAME/g" /etc/hosts
 sed -i "s/raspberrypi/$NEW_HOSTNAME/g" /etc/hostname
